@@ -44,14 +44,9 @@ const query = async (channelName, chaincodeName, args, fcn, username, org_name) 
         let result;
 
         switch (fcn) {
-            case "GetDocumentUsingCarContract":
+            case "GetDeviceById":
                 console.log("=============")
-                result = await contract.evaluateTransaction('SmartContract:'+fcn, args[0]);
-                break;
-            case "GetHistoryForAsset":
-            case "GetCarById":
-                console.log("=============")
-                result = await contract.evaluateTransaction(fcn, args[0]);
+                result = await contract.evaluateTransaction("DeviceContract:"+fcn, args);
                 break;
             default:
                 break;

@@ -46,7 +46,7 @@ setGlobalsForPeer0Org3(){
 
 presetup() {
     echo Vendoring Go dependencies ...
-    pushd ./artifacts/src/github.com/fabcar/go
+    pushd ./artifacts/src/github.com/chaincode
     GO111MODULE=on go mod vendor
     popd
     echo Finished vendoring Go dependencies
@@ -57,8 +57,8 @@ CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
 SEQUENCE="1"
-CC_SRC_PATH="./artifacts/src/github.com/fabcar/go"
-CC_NAME="fabcar"
+CC_SRC_PATH="./artifacts/src/github.com/chaincode"
+CC_NAME="maincode"
 
 packageChaincode() {
     rm -rf ${CC_NAME}.tar.gz
@@ -122,11 +122,12 @@ approveForMyOrg1() {
 #--channel-config-policy Channel/Application/Admins
 # --signature-policy "OR ('Org1MSP.peer','Org2MSP.peer')"
 
-checkCommitReadyness() {
+checkCommitReadynessForOrg1() {
+
     setGlobalsForPeer0Org1
-    peer lifecycle chaincode checkcommitreadiness \
-        --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
-        --sequence ${VERSION} --output json --init-required
+    peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME \
+        --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA \
+        --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --output json --init-required
     echo "===================== checking commit readyness from org 1 ===================== "
 }
 
@@ -147,13 +148,13 @@ approveForMyOrg2() {
 # queryInstalled
 # approveForMyOrg2
 
-checkCommitReadyness() {
+checkCommitReadynessForOrg2() {
 
     setGlobalsForPeer0Org2
     peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA \
         --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --output json --init-required
-    echo "===================== checking commit readyness from org 1 ===================== "
+    echo "===================== checking commit readyness from org 2 ===================== "
 }
 
 # checkCommitReadyness
@@ -167,19 +168,19 @@ approveForMyOrg3() {
         --version ${VERSION} --init-required --package-id ${PACKAGE_ID} \
         --sequence ${SEQUENCE}
 
-    echo "===================== chaincode approved from org 2 ===================== "
+    echo "===================== chaincode approved from org 3 ===================== "
 }
 
 # queryInstalled
 # approveForMyOrg3
 
-checkCommitReadyness() {
+checkCommitReadynessForOrg3() {
 
     setGlobalsForPeer0Org3
     peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME \
         --peerAddresses localhost:11051 --tlsRootCertFiles $PEER0_ORG3_CA \
         --name ${CC_NAME} --version ${VERSION} --sequence ${VERSION} --output json --init-required
-    echo "===================== checking commit readyness from org 1 ===================== "
+    echo "===================== checking commit readyness from org 3 ===================== "
 }
 
 # checkCommitReadyness
@@ -270,11 +271,11 @@ packageChaincode
 installChaincode
 queryInstalled
 approveForMyOrg1
-checkCommitReadyness
+checkCommitReadynessForOrg1
 approveForMyOrg2
-checkCommitReadyness
+checkCommitReadynessForOrg2
 approveForMyOrg3
-checkCommitReadyness
+checkCommitReadynessForOrg3
 commitChaincodeDefination
 queryCommitted
 chaincodeInvokeInit

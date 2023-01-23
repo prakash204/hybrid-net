@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -17,7 +16,8 @@ type DeviceContract struct {
 
 type Device struct {
 	ID	string `json:"id"`
-	PufKey	string `json:"puf"`
+	Yuniq	string `json:"yuniq"`
+	Owner	string `json:"owner"`
 	AddedAt uint64 `json:"addedAt"`
 }
 
@@ -42,33 +42,6 @@ func (s *DeviceContract) CreateDevice(ctx contractapi.TransactionContextInterfac
 
 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(device.ID, deviceAsBytes)
 }
-
-// func (s *DeviceContract) VerifyDevice(ctx contractapi.TransactionContextInterface, deviceID string, devicePassword string) (bool, error) {
-	
-// 	if len(deviceID) == 0 {
-// 		return false, fmt.Errorf("Incorrect device ID")
-// 	}
-
-// 	deviceAsBytes, err := ctx.GetStub().GetState(deviceID)
-
-// 	if err != nil {
-// 		return false, fmt.Errorf("Failed to read from world state. %s", err.Error())
-// 	}
-
-// 	if deviceAsBytes == nil {
-// 		return false, fmt.Errorf("%s does not exist", deviceID)
-// 	}
-
-// 	device := new(Device)
-// 	_ = json.Unmarshal(deviceAsBytes, device)
-
-// 	if device.Password == devicePassword {
-// 		return true, nil
-// 	} else {
-// 		return false, nil
-// 	}
-	
-// }
 
 func (s *DeviceContract) GetHistoryForAsset(ctx contractapi.TransactionContextInterface, deviceID string) (string, error) {
 
@@ -143,36 +116,6 @@ func (s *DeviceContract) GetDeviceById(ctx contractapi.TransactionContextInterfa
 
 }
 
-// func (s *DeviceContract) UpdatePassword(ctx contractapi.TransactionContextInterface, deviceID string, newPassword string) (string, error) {
-
-// 	if len(deviceID) == 0 {
-// 		return "", fmt.Errorf("Please pass the correct device id")
-// 	}
-
-// 	deviceAsBytes, err := ctx.GetStub().GetState(deviceID)
-
-// 	if err != nil {
-// 		return "", fmt.Errorf("Failed to get device data. %s", err.Error())
-// 	}
-
-// 	if deviceAsBytes == nil {
-// 		return "", fmt.Errorf("%s does not exist", deviceID)
-// 	}
-
-// 	device := new(Device)
-// 	_ = json.Unmarshal(deviceAsBytes, device)
-
-// 	device.Password = newPassword
-
-// 	deviceAsBytes, err = json.Marshal(device)
-// 	if err != nil {
-// 		return "", fmt.Errorf("Failed while marshling device. %s", err.Error())
-// 	}
-
-// 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(device.ID, deviceAsBytes)
-
-// }
-
 func (s *DeviceContract) DeleteDeviceById(ctx contractapi.TransactionContextInterface, deviceID string) (string, error) {
 	if len(deviceID) == 0 {
 		return "", fmt.Errorf("Please provide correct contract Id")
@@ -180,17 +123,3 @@ func (s *DeviceContract) DeleteDeviceById(ctx contractapi.TransactionContextInte
 
 	return ctx.GetStub().GetTxID(), ctx.GetStub().DelState(deviceID)
 }
-
-
-// func main() {
-
-// 	chaincode, err := contractapi.NewChaincode(new(DeviceContract))
-// 	if err != nil {
-// 		fmt.Printf("Error create fabcar chaincode: %s", err.Error())
-// 		return
-// 	}
-// 	if err := chaincode.Start(); err != nil {
-// 		fmt.Printf("Error starting chaincodes: %s", err.Error())
-// 	}
-
-// }

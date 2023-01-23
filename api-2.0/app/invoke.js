@@ -9,7 +9,7 @@ const util = require('util')
 const helper = require('./helper');
 const { blockListener, contractListener } = require('./Listeners');
 
-const invokeTransaction = async (channelName, chaincodeName, fcn, args, username, org_name, transientData) => {
+const invokeTransaction = async (channelName, chaincodeName, fcn, args, username, org_name) => {
     try {
         const ccp = await helper.getCCP(org_name);
         console.log("==================", channelName, chaincodeName, fcn, args, username, org_name,)
@@ -50,12 +50,10 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
         let message;
 
         switch (fcn) {
-            case "CreatePrivateDataImplicitForOrg1":
-            case 'ABACTest':
-            case 'CreateContract':
-            case "CreateCar":
-                result = await contract.submitTransaction(fcn, args[0]);
+            case "CreateDevice":
+                result = await contract.submitTransaction("DeviceContract:"+fcn, args);
                 result = {txid: result.toString()}
+                console.log(result)
                 break;
             case "UpdateCarOwner":
                 console.log("=============")

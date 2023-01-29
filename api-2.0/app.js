@@ -42,7 +42,7 @@ logger.level = 'debug';
 
 app.use((req, res, next) => {
     logger.debug('New req for %s', req.originalUrl);
-    if (req.originalUrl.indexOf('/user') >= 0 || req.originalUrl.indexOf('/user/login') >= 0 || req.originalUrl.indexOf('/user/register') >= 0) {
+    if (req.originalUrl.indexOf('/device/getUniqueId') >= 0 || req.originalUrl.indexOf('/user') >= 0 || req.originalUrl.indexOf('/user/login') >= 0 || req.originalUrl.indexOf('/user/register') >= 0) {
         return next();
     }
     var token = req.token;
@@ -220,7 +220,7 @@ app.get('/device/getUniqueId', async function (req, res) {
 
         console.log(deviceId)
 
-        let message = await query.query("mychannel", "maincode", deviceId, "GetDeviceById", req.username, req.orgname);
+        let message = await query.query("mychannel", "maincode", deviceId, "GetDeviceById", "benz", "Org1");
 
         const response_payload = {
             result: message.yuniq,

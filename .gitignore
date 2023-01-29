@@ -122,8 +122,8 @@ vendor
 artifacts/src/github.com/golang
 artifacts/src/github.com/pkg
 artifacts/src/github.com/hyperledger
-artifacts/src/github.com/fabcar/go/vendor
-artifacts/src/github.com/fabcar/go/go.sum
+artifacts/src/github.com/chaincode/vendor
+artifacts/src/github.com/chaincode/go.sum
 crypto/fabric-client-kv-org1
 fabcar.tar.gz
 test_cc.tar.gz
@@ -158,8 +158,8 @@ org4consenter.json
 addOrg3/scripts/channel-artifacts/mychannel.block
 api-2.0/org1-wallet
 api-2.0/org2-wallet
-artifacts/channel/create-certificate-with-ca/crypto-config-ca
-artifacts/channel/create-certificate-with-ca/fabric-ca
+artifacts/channel/create-certificate-with-ca-hybrid/crypto-config-ca
+artifacts/channel/create-certificate-with-ca-hybrid/fabric-ca
 artifacts/channel/crypto-config_1
 artifacts/channel/crypto-config_cryptogen
 api-2.0/app/data/transactionData.block

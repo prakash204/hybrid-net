@@ -1,3 +1,3 @@
 # Hybrid-Net
 
-Blockchain application for major project, considered as HYBNET
+Blockchain application to store details of a device, considered as HYBNET

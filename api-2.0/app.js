@@ -155,6 +155,8 @@ app.post('/user/login', async function (req, res) {
 // Add device
 app.post('/device/add', async function (req, res) {
     try {
+        var hrTime = process.hrtime()
+        var req_start_time = hrTime[0] * 1000000 + hrTime[1] / 1000
 
         if (req.orgname != 'Org1') {
             res.json(getErrorMessage('\'You are not authorized\''));
@@ -198,6 +200,10 @@ app.post('/device/add', async function (req, res) {
             errorData: null
         }
         res.send(response_payload);
+        hrTime = process.hrtime()
+        var req_end_time = hrTime[0] * 1000000 + hrTime[1] / 1000
+
+        console.log("Time taken to register : ", req_end_time - req_start_time);
     } catch (error) {
         const response_payload = {
             result: null,
@@ -205,6 +211,9 @@ app.post('/device/add', async function (req, res) {
             errorData: error.message
         }
         res.send(response_payload)
+        hrTime = process.hrtime()
+        var req_end_time = hrTime[0] * 1000000 + hrTime[1] / 1000
+        console.log("Time taken to register : ", req_end_time - req_start_time);
     }
 
     // logger.debug('End point : /users');
